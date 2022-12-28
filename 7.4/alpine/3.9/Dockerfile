@@ -6,7 +6,7 @@ ENV INTL_DEPS icu-dev
 
 # Issue with the pcre and php version combination provided by the base image.
 RUN echo 'pcre.jit=0' >> /usr/local/etc/php/conf.d/zz-disable-pcre-jit.ini
-RUN apk add --no-cache --update freetype icu libjpeg libpng libwebp libmemcached-libs zip zlib
+RUN apk add --no-cache --update freetype icu libjpeg libpng libwebp libzip libmemcached-libs zip zlib
 RUN set -xe \
 	&& apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
 	&& apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \

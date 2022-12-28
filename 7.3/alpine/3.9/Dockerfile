@@ -6,7 +6,7 @@ ENV INTL_DEPS icu-dev
 
 # Issue with the pcre and php version combination provided by the base image.
 RUN echo 'pcre.jit=0' >> /usr/local/etc/php/conf.d/zz-disable-pcre-jit.ini
-RUN apk add --no-cache --update icu libjpeg libpng libwebp libmemcached-libs zlib
+RUN apk add --no-cache --update freetype icu libjpeg libpng libwebp libzip libmemcached-libs zip zlib
 RUN set -xe \
 	&& apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
 	&& apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
@@ -24,6 +24,7 @@ RUN set -xe \
 		--with-png-dir=/usr/include/ \
 		--with-webp-dir=/usr/include/ \
 	&& docker-php-ext-install -j$(nproc) gd \
+	&& docker-php-ext-install zip \
 	&& rm -rf /usr/share/php7 \
 	&& rm -rf /tmp/* \
 	&& apk del .memcached-deps .phpize-deps .gd-deps .intl-deps
