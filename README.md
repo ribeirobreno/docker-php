@@ -9,3 +9,4 @@ Docker images with a few extensions and composer pre-installed.
 - PDO
 - PDO MySQL
 - GD (with freetype, jpeg, png and webp enabled)
+- Zip

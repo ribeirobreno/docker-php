@@ -1,5 +1,5 @@
 # ?
-FROM php:7.3-fpm-alpine3.10
+FROM php:7.4-fpm-alpine3.10
 
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 ENV GD_DEPS zlib-dev freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev
@@ -26,11 +26,9 @@ RUN set -xe \
 	&& docker-php-ext-install pcntl \
 	&& docker-php-ext-install mysqli pdo pdo_mysql \
 	&& docker-php-ext-configure gd \
-		--with-freetype-dir \
-		--with-jpeg-dir=/usr/include/ \
-		--with-zlib-dir \
-		--with-png-dir=/usr/include/ \
-		--with-webp-dir=/usr/include/ \
+		--with-freetype \
+		--with-jpeg \
+		--with-webp \
 	&& docker-php-ext-install -j$(nproc) gd \
 	&& docker-php-ext-install zip \
 	&& rm -rf /usr/share/php7 \
