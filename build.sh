@@ -24,4 +24,5 @@ do
 
     echo "Building ${tag} from ${filePath}"
     docker build -t "ribeirobreno/php:${tag}" "$imagePath" || exit $?
+    #docker push "ribeirobreno/php:${tag}"
 done
