@@ -4,6 +4,7 @@ FROM php:7.4-fpm-alpine3.10
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 ENV GD_DEPS zlib-dev freetype-dev libjpeg-turbo-dev libpng-dev libwebp-dev
 ENV INTL_DEPS icu-dev
+ENV SOAP_DEPS libxml2-dev
 ENV ZIP_DEPS libzip-dev
 
 # Issue with the pcre and php version combination provided by the base image.
@@ -19,6 +20,8 @@ RUN set -xe \
 	&& sleep 1 \
 	&& apk add --no-cache --update --virtual .intl-deps $INTL_DEPS \
 	&& sleep 1 \
+	&& apk add --no-cache --update --virtual .soap-deps $SOAP_DEPS \
+	&& sleep 1 \
 	&& apk add --no-cache --update --virtual .zip-deps $ZIP_DEPS \
 	&& pecl install memcached \
 	&& docker-php-ext-enable memcached \
@@ -30,10 +33,12 @@ RUN set -xe \
 		--with-jpeg \
 		--with-webp \
 	&& docker-php-ext-install -j$(nproc) gd \
+	&& docker-php-ext-install soap \
+	&& docker-php-ext-enable soap \
 	&& docker-php-ext-install zip \
 	&& rm -rf /usr/share/php7 \
 	&& rm -rf /tmp/* \
-	&& apk del .memcached-deps .phpize-deps .gd-deps .intl-deps .zip-deps
+	&& apk del .memcached-deps .phpize-deps .gd-deps .intl-deps .soap-deps .zip-deps
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php -r "if (hash_file('sha384', 'composer-setup.php') === file_get_contents('https://composer.github.io/installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
