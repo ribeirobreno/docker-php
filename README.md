@@ -2,12 +2,13 @@
 Docker images with a few extensions and composer pre-installed.
 
 ## Extensions available
-- Memcached
+- BC Math
+- GD (with freetype, jpeg, png and webp enabled)
 - Intl
-- Pcntl
+- Memcached
 - MySQLi
+- Pcntl
 - PDO
 - PDO MySQL
-- GD (with freetype, jpeg, png and webp enabled)
 - SOAP
 - Zip
